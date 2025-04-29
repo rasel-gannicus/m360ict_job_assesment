@@ -79,13 +79,13 @@ const ProductList: FC = () => {
       width: 150,
       render: (_: undefined, record: Product) => (
         <Space>
-          <Button 
-            type="primary" 
+          <Button
+            type="primary"
             onClick={() => navigate(generatePath.productDetail(record.id))}
           >
             View
           </Button>
-          <Button 
+          <Button
             onClick={() => navigate(generatePath.productEdit(record.id))}
           >
             Edit
@@ -94,7 +94,7 @@ const ProductList: FC = () => {
       ),
     },
   ];
-  
+
   return (
     <Card>
       <Typography.Title level={3}>Products</Typography.Title>
