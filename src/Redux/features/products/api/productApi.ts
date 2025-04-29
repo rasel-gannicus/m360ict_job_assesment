@@ -1,12 +1,16 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { ProductsResponse } from '../types/product.types';
 
 export const productApi = createApi({
   reducerPath: 'productApi',
   baseQuery: fetchBaseQuery({ baseUrl: 'https://dummyjson.com/' }),
   tagTypes: ['Products'],
   endpoints: (builder) => ({
-
+    getProducts: builder.query<ProductsResponse, { limit?: number; skip?: number }>({
+        query: ({ limit = 10, skip = 0 }) => `products?limit=${limit}&skip=${skip}`,
+        providesTags: ['Products']
+      }),
   }),
 });
 
-export const { } = productApi;
+export const { useGetProductsQuery } = productApi;
