@@ -2,17 +2,16 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { Product, ProductsResponse } from "../types/product.types";
 
 export const productApi = createApi({
-  reducerPath: "productApi",
-  baseQuery: fetchBaseQuery({ baseUrl: "https://dummyjson.com/" }),
-  tagTypes: ["Products"],
+  reducerPath: 'productApi',
+  baseQuery: fetchBaseQuery({ baseUrl: 'https://dummyjson.com/' }),
   endpoints: (builder) => ({
-    getProducts: builder.query<
-      ProductsResponse,
-      { limit?: number; skip?: number }
-    >({
-      query: ({ limit = 10, skip = 0 }) =>
-        `products?limit=${limit}&skip=${skip}`,
-      providesTags: ["Products"],
+    getProducts: builder.query<ProductResponse, { limit: number; skip: number; search?: string }>({
+      query: ({ limit, skip, search }) => {
+        if (search && search.trim()) {
+          return `products/search?q=${search}&limit=${limit}&skip=${skip}`;
+        }
+        return `products?limit=${limit}&skip=${skip}`;
+      },
     }),
     getProduct: builder.query<Product, number>({
       query: (id) => `products/${id}`,

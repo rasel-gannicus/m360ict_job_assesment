@@ -1,12 +1,23 @@
 import { BellOutlined, UserOutlined } from '@ant-design/icons';
 import { Avatar, Button, Input, Layout, Space } from 'antd';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { setSearchQuery } from '../../Redux/features/products/productSlice';
 
 const { Header: AntHeader } = Layout;
 const { Search } = Input;
 
 const Header = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const dispatch = useDispatch();
+  const [searchValue, setSearchValue] = useState('');
+
+  const handleSearch = (value: string) => {
+    setSearchValue(value);
+    dispatch(setSearchQuery(value));
+  };
 
   return (
     <AntHeader 
@@ -45,13 +56,17 @@ const Header = () => {
         >
           <div style={{ display: 'flex', alignItems: 'center' }}>
             <Search
-              placeholder="Search..."
+              placeholder="Search products..."
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
+              onSearch={handleSearch}
               style={{ 
                 width: '250px',
                 margin: 0,
                 transform: 'translateY(0)'
               }}
               className="header-search"
+              allowClear
             />
           </div>
           <Space align="center">

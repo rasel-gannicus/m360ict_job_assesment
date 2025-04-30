@@ -4,18 +4,23 @@ import { useNavigate } from 'react-router-dom';
 import { useGetProductsQuery } from '../../Redux/features/products/api/productApi';
 import type { Product } from '../../Redux/features/products/types/product.types';
 import { generatePath } from '../../routes/routes';
+import { useSelector } from 'react-redux';
+import type { RootState } from '../../Redux/store';
 
 const { Text } = Typography;
 
 const ProductList: FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 10;
-  const navigate = useNavigate();
+  const searchQuery = useSelector((state: RootState) => state.product.searchQuery);
   
   const { data, isLoading } = useGetProductsQuery({ 
     limit: pageSize, 
-    skip: (currentPage - 1) * pageSize 
+    skip: (currentPage - 1) * pageSize,
+    search: searchQuery 
   });
+  const navigate = useNavigate();
+  
 
   const columns = [
     {
