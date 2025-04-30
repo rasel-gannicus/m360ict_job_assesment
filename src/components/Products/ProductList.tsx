@@ -1,5 +1,5 @@
 import { Table, Button, Card, Space, Image, Tag, Rate, Typography } from 'antd';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGetProductsQuery } from '../../Redux/features/products/api/productApi';
 import type { Product } from '../../Redux/features/products/types/product.types';
@@ -8,8 +8,14 @@ import { generatePath } from '../../routes/routes';
 const { Text } = Typography;
 
 const ProductList: FC = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const pageSize = 10;
   const navigate = useNavigate();
-  const { data, isLoading } = useGetProductsQuery({ limit: 10, skip: 0 });
+  
+  const { data, isLoading } = useGetProductsQuery({ 
+    limit: pageSize, 
+    skip: (currentPage - 1) * pageSize 
+  });
 
   const columns = [
     {
@@ -104,10 +110,14 @@ const ProductList: FC = () => {
         loading={isLoading}
         rowKey="id"
         pagination={{
+          current: currentPage,
           total: data?.total,
-          pageSize: 10,
+          pageSize: pageSize,
           onChange: (page) => {
+            setCurrentPage(page);
           },
+          showSizeChanger: false,
+          showTotal: (total) => `Total ${total} items`,
         }}
       />
     </Card>

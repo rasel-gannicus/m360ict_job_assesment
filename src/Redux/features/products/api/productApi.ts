@@ -1,28 +1,42 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { Product, ProductsResponse } from '../types/product.types';
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { Product, ProductsResponse } from "../types/product.types";
 
 export const productApi = createApi({
-  reducerPath: 'productApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'https://dummyjson.com/' }),
-  tagTypes: ['Products'],
+  reducerPath: "productApi",
+  baseQuery: fetchBaseQuery({ baseUrl: "https://dummyjson.com/" }),
+  tagTypes: ["Products"],
   endpoints: (builder) => ({
-    getProducts: builder.query<ProductsResponse, { limit?: number; skip?: number }>({
-        query: ({ limit = 10, skip = 0 }) => `products?limit=${limit}&skip=${skip}`,
-        providesTags: ['Products']
-      }),
-      getProduct: builder.query<Product, number>({
-        query: (id) => `products/${id}`,
-        providesTags: ['Products']
-      }),
-      updateProduct: builder.mutation<Product, Partial<Product> & { id: number }>({
+    getProducts: builder.query<
+      ProductsResponse,
+      { limit?: number; skip?: number }
+    >({
+      query: ({ limit = 10, skip = 0 }) =>
+        `products?limit=${limit}&skip=${skip}`,
+      providesTags: ["Products"],
+    }),
+    getProduct: builder.query<Product, number>({
+      query: (id) => `products/${id}`,
+      providesTags: ["Products"],
+    }),
+    updateProduct: builder.mutation<Product, Partial<Product> & { id: number }>(
+      {
         query: ({ id, ...patch }) => ({
           url: `products/${id}`,
-          method: 'PATCH',
+          method: "PATCH",
           body: patch,
         }),
-        invalidatesTags: ['Products']
-      }),
+        invalidatesTags: ["Products"],
+      }
+    ),
+    getCategories: builder.query<string[], void>({
+      query: () => "products/categories",
+    }),
   }),
 });
 
-export const { useGetProductsQuery, useGetProductQuery, useUpdateProductMutation } = productApi;
+export const {
+  useGetProductsQuery,
+  useGetProductQuery,
+  useUpdateProductMutation,
+  useGetCategoriesQuery,
+} = productApi;
