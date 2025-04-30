@@ -1,6 +1,7 @@
 import { lazy } from 'react';
 import { RouteObject } from 'react-router-dom';
 import MainLayout from '../components/layout/MainLayout';
+import ErrorPage from '../components/common/ErrorPage';
 
 // Lazy load components for better performance
 const ProductList = lazy(() => import('../components/Products/ProductList'));
@@ -30,6 +31,10 @@ export const routes: RouteObject[] = [
       {
         path: ROUTE_PATHS.PRODUCT_EDIT,
         element: <ProductEdit />,
+      },
+      {
+        path: '*',
+        element: <ErrorPage />,
       },
     ],
   },

@@ -1,8 +1,8 @@
 import { BellOutlined, UserOutlined } from '@ant-design/icons';
 import { Avatar, Button, Input, Layout, Space } from 'antd';
 import { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { setSearchQuery } from '../../Redux/features/products/productSlice';
 
 const { Header: AntHeader } = Layout;
@@ -10,13 +10,15 @@ const { Search } = Input;
 
 const Header = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const dispatch = useDispatch();
   const [searchValue, setSearchValue] = useState('');
+  const [isSearching, setIsSearching] = useState(false);
 
   const handleSearch = (value: string) => {
+    setIsSearching(true);
     setSearchValue(value);
     dispatch(setSearchQuery(value));
+    setTimeout(() => setIsSearching(false), 800); 
   };
 
   return (
@@ -67,6 +69,7 @@ const Header = () => {
               }}
               className="header-search"
               allowClear
+              loading={isSearching}
             />
           </div>
           <Space align="center">
