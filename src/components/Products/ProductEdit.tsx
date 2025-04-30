@@ -3,6 +3,7 @@ import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useGetProductQuery, useUpdateProductMutation } from '../../Redux/features/products/api/productApi';
 import type { Product } from '../../Redux/features/products/types/product.types';
+import { useGetCategoriesQuery } from '../../Redux/features/products/api/productApi';
 
 
 
@@ -12,6 +13,8 @@ const ProductEdit = () => {
   const { data: product, isLoading } = useGetProductQuery(Number(id));
   const [updateProduct, { data }] = useUpdateProductMutation();
   console.log(data);
+
+  const { data: categories, isLoading: categoriesLoading } = useGetCategoriesQuery();
   
   const onFinish = async (values: Partial<Product>) => {
     try {
@@ -50,10 +53,12 @@ const ProductEdit = () => {
         </Form.Item>
 
         <Form.Item label="Category" name="category" rules={[{ required: true }]}>
-          <Select>
-            <Select.Option value="smartphones">Smartphones</Select.Option>
-            <Select.Option value="laptops">Laptops</Select.Option>
-            {/* Add more categories */}
+          <Select loading={categoriesLoading}>
+            {categories?.map((category: { slug: string; name: string }) => (
+              <Select.Option key={category.slug} value={category.slug}>
+                {category.name}
+              </Select.Option>
+            ))}
           </Select>
         </Form.Item>
 
