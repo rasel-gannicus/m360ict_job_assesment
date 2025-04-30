@@ -109,6 +109,8 @@ const ProductList: FC = () => {
         dataSource={data?.products}
         loading={isLoading}
         rowKey="id"
+        scroll={{ x: 1000 }}
+        style={{ overflowX: 'auto' }}
         pagination={{
           current: currentPage,
           total: data?.total,
@@ -118,6 +120,8 @@ const ProductList: FC = () => {
           },
           showSizeChanger: false,
           showTotal: (total) => `Total ${total} items`,
+          responsive: true,
+          position: ['bottomCenter']
         }}
       />
     </Card>

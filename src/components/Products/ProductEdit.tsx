@@ -2,42 +2,9 @@ import { Form, Input, InputNumber, Select, Button, Card, Space, message, Rate } 
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useGetProductQuery, useUpdateProductMutation } from '../../Redux/features/products/api/productApi';
+import type { Product } from '../../Redux/features/products/types/product.types';
 
-interface Product {
-  id: number;
-  title: string;
-  price: number;
-  discountPercentage: number;
-  stock: number;
-  rating: number;
-  images: string[];
-  thumbnail: string;
-  description: string;
-  brand: string;
-  category: string;
-  reviews: Review[];
-}
 
-interface Review {
-  rating: number;
-  comment: string;
-  reviewerName: string;
-  date: string;
-}
-
-interface Product {
-  id: number;
-  title: string;
-  price: number;
-  discountPercentage: number;
-  stock: number;
-  rating: number;
-  images: string[];
-  thumbnail: string;
-  description: string;
-  brand: string;
-  category: string;
-}
 
 const ProductEdit = () => {
   const { id } = useParams();
