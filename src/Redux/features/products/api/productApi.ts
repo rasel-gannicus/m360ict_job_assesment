@@ -14,7 +14,15 @@ export const productApi = createApi({
         query: (id) => `products/${id}`,
         providesTags: ['Products']
       }),
+      updateProduct: builder.mutation<Product, Partial<Product> & { id: number }>({
+        query: ({ id, ...patch }) => ({
+          url: `products/${id}`,
+          method: 'PATCH',
+          body: patch,
+        }),
+        invalidatesTags: ['Products']
+      }),
   }),
 });
 
-export const { useGetProductsQuery, useGetProductQuery } = productApi;
+export const { useGetProductsQuery, useGetProductQuery, useUpdateProductMutation } = productApi;

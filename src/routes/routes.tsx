@@ -14,7 +14,6 @@ export const ROUTE_PATHS = {
   PRODUCT_EDIT: '/product/edit/:id',
 } as const;
 
-// Define route configuration with proper typing
 export const routes: RouteObject[] = [
   {
     path: ROUTE_PATHS.HOME,
