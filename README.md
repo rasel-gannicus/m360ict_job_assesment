@@ -1,5 +1,5 @@
 
-# M360 ICT Product Management System
+# E-Commerce Product Management Dashboard with AntDesign
 
 A modern product management system built with React, TypeScript, and Ant Design.
 
